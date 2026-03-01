@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOTO</title>
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+  <!-- MAIN MENU -->
+  <div id="main-menu" class="view-container active">
+
+    <!-- Application Logo -->
+    <div style="text-align: center; margin-bottom: 10px; margin-top: 20px;">
+      <img src="NOTO.png" alt="NOTO Logo"
+        style="max-width: 280px; width: 85%; height: auto; display: block; margin: 0 auto; transform: scale(1.1);">
+    </div>
+
+    <!-- Click handlers added via JS -->
+    <div class="card mavi" onclick="showView('target-view')">
+      <span>Hedefini Gir</span>
+    </div>
+
+    <div class="card yesil" onclick="showView('progress-view')">
+      <span>İlerleme Durumu</span>
+    </div>
+
+    <div class="card mor" onclick="showView('meditation-view')">
+      <span>Meditasyon</span>
+    </div>
+
+    <div class="card turuncu" onclick="showView('notepad-view')">
+      <span>Not Defteri</span>
+    </div>
+  </div>
+
+  <!-- TARGET VIEW (CALENDAR) -->
+  <div id="target-view" class="view-container">
+    <button class="back-btn" onclick="showView('main-menu')">← Geri Dön</button>
+
+    <div class="calendar-card">
+      <div class="calendar-header">
+        <button id="prevBtn">‹</button>
+        <h2 id="currentDateDisplay">2026</h2>
+        <button id="nextBtn">›</button>
+      </div>
+
+      <div class="month-grid" id="monthsGrid"></div>
+
+      <div class="days-area" id="daysArea" style="display: none;">
+        <div class="days-grid" id="daysGrid"></div>
+      </div>
+    </div>
+
+    <!-- TARGET LIST CONTAINER -->
+    <div id="target-list-container" class="calendar-card" style="margin-top: 20px; display: none;">
+      <!-- Hidden by default, shown when Month view is active -->
+      <h3 style="margin-top: 0; margin-bottom: 16px; font-size: 18px;">Bu Ayın Hedefleri</h3>
+      <div id="targetList"></div>
+    </div>
+  </div>
+
+  <!-- PROGRESS VIEW -->
+  <div id="progress-view" class="view-container">
+    <button class="back-btn" onclick="showView('main-menu')">← Geri Dön</button>
+    <div class="calendar-card" style="text-align: center;">
+      <h2>İlerleme Durumu</h2>
+      <p style="color: #666; margin-bottom: 20px;">Hedeflerinize ne kadar ulaştığınızı buradan takip edin.</p>
+
+      <div style="display: flex; justify-content: space-around; margin-top: 30px;">
+        <div>
+          <div style="font-size: 32px; font-weight: bold; color: #333;" id="stat-total">0</div>
+          <div style="font-size: 14px; color: #888;">Toplam</div>
+        </div>
+        <div>
+          <div style="font-size: 32px; font-weight: bold; color: #2e7d32;" id="stat-done">0</div>
+          <div style="font-size: 14px; color: #888;">Tamamlanan</div>
+        </div>
+        <div>
+          <div style="font-size: 32px; font-weight: bold; color: #c62828;" id="stat-failed">0</div>
+          <div style="font-size: 14px; color: #888;">Başarısız</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MEDITATION VIEW -->
+  <div id="meditation-view" class="view-container">
+    <button class="back-btn" onclick="showView('main-menu')">← Geri Dön</button>
+    <div class="calendar-card" style="text-align: center;">
+      <h2>Meditasyon Alanı</h2>
+      <p style="margin-bottom: 20px; color: #666;">Kendi müzik veya videonuzu yükleyip rahatlayın.</p>
+
+      <input type="file" id="mediaInput" accept="audio/*,video/*" style="display: none;">
+      <button class="upload-btn" onclick="document.getElementById('mediaInput').click()">
+        dosya Seç (Müzik/Video)
+      </button>
+
+      <div id="media-container">
+        <!-- Player will appear here -->
+        <div style="color: #999; font-style: italic;">Henüz dosya seçilmedi.</div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- NOTEPAD VIEW -->
+  <div id="notepad-view" class="view-container">
+    <button class="back-btn" onclick="showView('main-menu')">← Geri Dön</button>
+    <div class="calendar-card">
+      <h2 style="text-align: center; margin-bottom: 20px;">Notlarım</h2>
+      <textarea id="notepad-area" placeholder="Buraya notlarınızı yazın..."></textarea>
+
+      <!-- Checkbox Option -->
+      <div style="margin-top: 10px; display: flex; align-items: center; justify-content: flex-start; gap: 8px;">
+        <input type="checkbox" id="note-is-task" style="width: 18px; height: 18px; cursor: pointer;">
+        <label for="note-is-task" style="font-size: 14px; cursor: pointer;">Bunu bir görev olarak ekle (Onay kutusu
+          ile)</label>
+      </div>
+
+      <!-- Save Button -->
+      <button id="saveNoteBtn" class="action-btn btn-done"
+        style="margin-top: 15px; width: 100%; font-size: 16px; padding: 12px;">
+        Kaydet
+      </button>
+
+      <div style="text-align: right; font-size: 12px; color: #888; margin-top: 8px; height: 16px;" id="save-status">
+      </div>
+
+      <!-- Notes History List -->
+      <div id="notes-history-container">
+        <!-- Notes will be added here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE VIEW -->
+  <div id="profile-view" class="view-container">
+    <button class="back-btn" onclick="showView('main-menu')">← Geri Dön</button>
+    <div class="calendar-card" style="text-align: center;">
+      <!-- Avatar Section -->
+      <div class="profile-avatar-container">
+        <img src="" alt="Profil" id="profileExampleImg" class="profile-avatar" style="display: none;">
+        <!-- Hidden initially -->
+        <div id="profilePlaceholder" class="profile-avatar"
+          style="display: flex; justify-content: center; align-items: center; background: #ddd; color: #aaa; font-size: 40px;">
+          ?</div>
+
+        <label for="avatarInput" class="edit-avatar-btn">+</label>
+        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+      </div>
+
+      <!-- Info Section -->
+      <div class="profile-input-group">
+        <label class="profile-label">Ad Soyad</label>
+        <input type="text" id="profileName" class="profile-input" placeholder="Adınız...">
+      </div>
+
+      <div class="profile-input-group">
+        <label class="profile-label">Hakkımda</label>
+        <textarea id="profileBio" class="profile-input" placeholder="Kısa bir yazı..."></textarea>
+      </div>
+
+      <button id="saveProfileBtn" class="action-btn btn-done" style="width: 100%; font-size: 16px; padding: 12px;">
+        Profili Kaydet
+      </button>
+      <div id="profile-status" style="margin-top: 10px; font-size: 12px; color: green; height: 16px;"></div>
+
+    </div>
+  </div>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" id="nav-home" onclick="handleNavClick('main-menu', 'nav-home')">
+      <!-- Home Icon SVG -->
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+      <span>Anasayfa</span>
+    </div>
+
+    <div class="nav-item" id="nav-target" onclick="handleNavClick('target-view', 'nav-target')">
+      <!-- Target/Calendar Icon SVG -->
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+      </svg>
+      <span>Hedefler</span>
+    </div>
+
+    <div class="nav-item" id="nav-notes" onclick="handleNavClick('notepad-view', 'nav-notes')">
+      <!-- Notes Icon SVG -->
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+      </svg>
+      <span>Notlarım</span>
+    </div>
+
+    <div class="nav-item" id="nav-profile" onclick="handleNavClick('profile-view', 'nav-profile')">
+      <!-- Profile Icon SVG -->
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+      </svg>
+      <span>Profil</span>
+    </div>
+  </nav>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="targetModal">
+    <div class="modal-content">
+      <h3 id="modalDateTitle">Tarih</h3>
+      <textarea id="targetInput" placeholder="Hedefini buraya yaz..."></textarea>
+
+      <!-- Point Selector -->
+      <div style="margin-bottom: 20px; text-align: left;">
+        <label for="dayPointInput"
+          style="font-size: 14px; font-weight: bold; color: #555; display: block; margin-bottom: 5px;">Günün Puanı
+          (1-10):</label>
+        <div style="display: flex; gap: 5px; align-items: center;">
+          <input type="range" id="dayPointInput" min="1" max="10" value="5" style="flex: 1; cursor: pointer;">
+          <span id="dayPointDisplay"
+            style="font-weight: bold; color: #e07df8; font-size: 18px; width: 24px; text-align: center;">5</span>
+        </div>
+      </div>
+
+      <div>
+        <button class="modal-btn btn-save" id="saveBtn">Kaydet</button>
+        <button class="modal-btn btn-cancel" id="cancelBtn">İptal</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>
